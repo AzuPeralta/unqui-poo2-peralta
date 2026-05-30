@@ -9,13 +9,13 @@ public class Cliente {
 	private String nombre;
 	private String apellido;
 	private LocalDate fechaNac;
-	private List<Sueldo> sueldos;
+	private List<Double> sueldos;
 	
 	public Cliente(String nombre, String apellido, LocalDate fechaNac) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.fechaNac = fechaNac;
-		this.sueldos = new ArrayList<Sueldo>();
+		this.sueldos = new ArrayList<>();
 		
 	}
 	
@@ -29,21 +29,24 @@ public class Cliente {
 		return Period.between(hoy, getFechaNac()).getYears();
 	}
 
-	public void addSueldo(Sueldo nuevoSueldo) {
+	public void addSueldo(Double nuevoSueldo) {
 		this.addSueldo(nuevoSueldo);
 	}
 	
-	public double sueldoNetoAnual(int anio) {
-		
+	public double sueldoMensual() {
+		return this.sueldoNetoAnual() / 12; 
+	}
+	
+	public double sueldoNetoAnual() {
 		return sueldos.stream()
-				.filter(s -> s.getPeriodo().getYear() == anio) //Traeme los sueldos del año dado por parametros
-				.mapToDouble(s -> s.getNeto())				   //De esos traeme todos los netos	
-				.sum();										   //y sumalos 
+					  	.mapToDouble(Double::doubleValue)
+					  	.sum();											  
 	}
 	
 	public String getNombre() {
 		return nombre;
 	}
+	
 
 	public String getApellido() {
 		return apellido;
